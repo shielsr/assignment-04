@@ -35,11 +35,18 @@ As the business owner, I want to log in to my 'admin' account, so I can see what
 
 # Nouns/entities
 
-* Customer
-* Admin
-* Pumpkin design
-* Order
-* Customer details
+* Customers
+* Admins
+* Pumpkins
+* Orders
+
+# Attributes
+
+* Customer: user id [Primary], first name, surname, email, delivery address, phone, password
+* Admin: admin id [Primary], first name, surname, email, phone, password
+* Order: order id [Primary], date and time, customer id [Foreign], pumpkin id [Foreign], fulfilment 
+* Pumpkin design: pumpkin id [Primary], order id [Foreign], eyes, mouth, size
+
 
 # Page/routes to create
 
@@ -49,6 +56,7 @@ As the business owner, I want to log in to my 'admin' account, so I can see what
 * Log in
 * My account
 * Orders (Current & History)
+* Order page (individual)
 
 
 

@@ -4,7 +4,7 @@ from models import *
 
 
 app = Flask(__name__)
-app.secret_key = os.environ.get("SECRET_KEY", "fallback-secret-key") # For doing the logins
+app.config.from_object('config')  # Load configuration from config.py
 
 @app.route('/')
 def index():
