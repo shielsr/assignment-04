@@ -15,7 +15,7 @@
         <h3 class="card-title">Create form</h3>
 
 
-        <form id="pumpkin-create-form">
+        <form id="pumpkin-create-form" action="{{url_for('create_pumpkin_action')}}" method="post">
             <div class="mb-3">
 
 
@@ -25,25 +25,25 @@
                 <fieldset>
                     <legend>Size:</legend>
                     <div class="form-check">
-                        <input type="radio" id="size-small" name="pumpkin-size" value="small"
-                            class="form-check-input" />
+                        <input type="radio" id="size-small" name="size" value="small"
+                            class="form-check-input">
                         <label for="size-small" class="form-check-label">Small</label><br>
                     </div>
                     <div class="form-check">
-                        <input type="radio" id="size-medium" name="pumpkin-size" value="medium" checked
-                            class="form-check-input" />
+                        <input type="radio" id="size-medium" name="size" value="medium" checked
+                            class="form-check-input">
                         <label for="size-medium" class="form-check-label">Medium</label><br>
                     </div>
                     <div class="form-check">
-                        <input type="radio" id="size-large" name="pumpkin-size" value="large"
-                            class="form-check-input" />
+                        <input type="radio" id="size-large" name="size" value="large"
+                            class="form-check-input">
                         <label for="size-large" class="form-check-label">Large</label>
                     </div>
                 </fieldset>
 
                 <fieldset>
                     <legend>Eyes:</legend>
-                    <select id="eye-select" class="form-select" aria-label="Select pumpkin eyes">
+                    <select id="eye-select" name="eyes" class="form-select" aria-label="Select pumpkin eyes">
                         <option selected>Select eyes</option>
                         <option value="scare">Scary</option>
                         <option value="crazy">Crazy</option>
@@ -53,7 +53,7 @@
 
                 <fieldset>
                     <legend>Mouth:</legend>
-                    <select id="mouth-select" class="form-select" aria-label="Select pumpkin mouth">
+                    <select id="mouth-select" name="mouth" class="form-select" aria-label="Select pumpkin mouth">
                         <option selected>Select mouth</option>
                         <option value="vampire">Vampire</option>
                         <option value="smile">Smile</option>
@@ -65,7 +65,7 @@
                     <legend>
                         Amount of pumpkins:
                     </legend>
-                    <input type="number" id="red-quantity" min="0" max="6" step="1" inputmode="numeric">
+                    <input type="number" name="amount" id="red-quantity" min="0" max="6" step="1" inputmode="numeric">
                 </fieldset>
             </div>
             <p id="create-form-error-message" class="error-message"></p>
