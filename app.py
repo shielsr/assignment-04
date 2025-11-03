@@ -25,6 +25,7 @@ def create_pumpkin_page():
 
 @app.route("/create", methods=["POST"])
 def create_pumpkin_action():
+    # Action on submitting the form
     pumpkin = pumpkinDesign(
         size=request.form["size"],
         eyes=request.form["eyes"],
@@ -33,12 +34,13 @@ def create_pumpkin_action():
     )
     db.session.add(pumpkin)
     db.session.commit()
-    return redirect(url_for("pumpkin_design_review"))
+    return redirect(url_for("order_submit", pumpkin_id=pumpkin.designId))
 
-@app.route('/pumpkin-design', methods=["GET"])
-def pumpkin_design_review():
-    # Render the '' page
-    return render_template('pumpkin-design.html')
+@app.route('/order/<int:pumpkin_id>')
+def order_submit(pumpkin_id):
+    pumpkin = pumpkinDesign.query.get_or_404(pumpkin_id)
+    return render_template('order.html', pumpkin=pumpkin)
+
 
 if __name__ == '__main__':
      app.run(debug=True, port=8000)

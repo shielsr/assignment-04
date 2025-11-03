@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+
+
+
+<div class="title-block">
+    <h1>Order details</h1>
+</div>
+
+
+<div class="card narrow-card">
+    <div class="card-body">
+        <h3 class="card-title">Your design</h3>
+
+<ul>
+    <li>
+Size: {{ pumpkin.size }}
+</li><li>
+Eyes: {{ pumpkin.eyes }}
+</li>
+<li>
+Mouth: {{ pumpkin.mouth }}
+</li>
+<li>
+Amount: {{ pumpkin.amount }}
+</li>
+       
+    </ul>
+
+
+    </div>
+</div>
+
+<div class="card narrow-card">
+    <div class="card-body">
+        <h3 class="card-title">Order details</h3>
+
+
+
+    </div>
+</div>
+
+{% endblock %}
