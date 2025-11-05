@@ -9,6 +9,7 @@ db = SQLAlchemy()
 
 
 class Customer(db.Model):
+    __tablename__ = 'customer'
     customer_id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(nullable=False)
     email: Mapped[str] = mapped_column(nullable=False)
@@ -21,6 +22,7 @@ class Customer(db.Model):
 
 
 class Order(db.Model):
+    __tablename__ = 'order'
     order_id: Mapped[int] = mapped_column(primary_key=True)
     created_at: Mapped[datetime] = mapped_column(nullable=False,  default=lambda: datetime.now(timezone.utc))
     fulfilment: Mapped[str] = mapped_column(nullable=False, default = "Order placed")
@@ -35,6 +37,7 @@ class Order(db.Model):
 
 
 class PumpkinDesign(db.Model):
+    __tablename__ = 'pumpkin_design'
     design_id: Mapped[int] = mapped_column(primary_key=True)
     size: Mapped[str] = mapped_column(nullable=False) 
     eyes: Mapped[str] = mapped_column(nullable=False)

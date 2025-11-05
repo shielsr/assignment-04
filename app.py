@@ -20,17 +20,26 @@ def index():
 @app.route('/create', methods=["GET"])
 def create_pumpkin_page():
     # Render the 'Create' page
+    
     return render_template('create.html')
 
 @app.route("/create", methods=["POST"])
 def create_pumpkin_action():
     # Action on submitting the form
+    order = Order(
+        # Generates a new order
+    )
+    db.session.add(order)
+    db.session.commit()
+    
     pumpkin = PumpkinDesign(
         size=request.form["size"],
         eyes=request.form["eyes"],
         mouth=request.form["mouth"],
-        amount=request.form["amount"]
+        amount=request.form["amount"],
+        order_id = order.order_id
     )
+    
     db.session.add(pumpkin)
     db.session.commit()
     return redirect(url_for("order_submit", pumpkin_id=pumpkin.design_id))
@@ -44,11 +53,11 @@ def order_submit(pumpkin_id):
 def order_action():
     # Action on submitting the form
     order = Order(
+        
         # name=request.form["name"],
         # email=request.form["email"],
         # address=request.form["address"]
     )
-    
     db.session.add(order)
     db.session.commit()
     return redirect(url_for("order_thanks", order_id=order.order_id))
