@@ -44,17 +44,19 @@ def order_submit(pumpkin_id):
 def order_action():
     # Action on submitting the form
     order = Order(
-        name=request.form["size"],
-        email=request.form["eyes"],
-        address=request.form["mouth"]
+        # name=request.form["name"],
+        # email=request.form["email"],
+        # address=request.form["address"]
     )
+    
     db.session.add(order)
     db.session.commit()
     return redirect(url_for("order_thanks", order_id=order.order_id))
 
-@app.route('/order/<int:pumpkin_id>/thank-you', methods=["GET"])
-def order_thanks(thanks):
-    return render_template('thanks.html')
+@app.route('/order/thank-you/<int:order_id>', methods=["GET"])
+def order_thanks(order_id):
+    order = Order.query.get_or_404(order_id)
+    return render_template('thanks.html', order=order)
 
 # --- Seed defaults ---
 def seed_defaults():

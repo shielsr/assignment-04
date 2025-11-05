@@ -23,7 +23,7 @@ class Customer(db.Model):
 class Order(db.Model):
     order_id: Mapped[int] = mapped_column(primary_key=True)
     created_at: Mapped[datetime] = mapped_column(nullable=False,  default=lambda: datetime.now(timezone.utc))
-    fulfilment: Mapped[str] = mapped_column(nullable=False)
+    fulfilment: Mapped[str] = mapped_column(nullable=False, default = "Order placed")
 
     customer_id: Mapped[int] = mapped_column(db.ForeignKey('customer.customer_id'), nullable=True)
     

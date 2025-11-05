@@ -11,4 +11,4 @@ The following is a step-by-step account of how I did the project, which closely 
 - Fleshed out entities and attributes, and determined what primary and foreign keys I need
 - Created config.py and included secret key code
 - Set up pumpkin_design table in SQLite. I can now submit the /create form and add rows to pumpkin_design table
-- Writing all classes in models.py and their relationships
+- Wrote all classes in models.py, and mapped out their relationships
