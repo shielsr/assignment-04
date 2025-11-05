@@ -14,20 +14,21 @@
     <div class="card-body">
         <h3 class="card-title">Your design</h3>
 
-<ul>
-    <li>
-Size: {{ pumpkin.size }}
-</li><li>
-Eyes: {{ pumpkin.eyes }}
-</li>
-<li>
-Mouth: {{ pumpkin.mouth }}
-</li>
-<li>
-Amount: {{ pumpkin.amount }}
-</li>
-       
-    </ul>
+        <ul>
+            <li>
+                Size: {{ pumpkin.size }}
+            </li>
+            <li>
+                Eyes: {{ pumpkin.eyes }}
+            </li>
+            <li>
+                Mouth: {{ pumpkin.mouth }}
+            </li>
+            <li>
+                Amount: {{ pumpkin.amount }}
+            </li>
+
+        </ul>
 
 
     </div>
@@ -37,7 +38,33 @@ Amount: {{ pumpkin.amount }}
     <div class="card-body">
         <h3 class="card-title">Order details</h3>
 
+        <form id="order-form" action="{{url_for('create_pumpkin_action')}}" method="post">
+            <div class="mb-3">
+                <fieldset>
+                    <legend>
+                        Name:
+                    </legend>
+                    <input type="text" name="name" id="customer-name" required>
+                </fieldset>
 
+                <fieldset>
+                    <legend>
+                        Email:
+                    </legend>
+                    <input type="text" name="email" id="customer-email" required>
+                </fieldset>
+
+                                <fieldset>
+                    <legend>
+                        Address:
+                    </legend>
+                    <input type="text" name="address" id="customer-address" required>
+                </fieldset>
+
+            </div>
+            <p id="create-form-error-message" class="error-message"></p>
+            <button type="submit" class="btn btn-info m-2">Create my Pumpkin</button>
+        </form>
 
     </div>
 </div>
