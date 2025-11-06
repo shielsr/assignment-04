@@ -10,5 +10,7 @@ The following is a step-by-step account of how I did the project, which closely 
 - Added CSS and Bootstrap to tidy up the overall site & form appearance
 - Fleshed out entities and attributes, and determined what primary and foreign keys I need
 - Created config.py and included secret key code
-- Set up pumpkin_design table in SQLite. I can now submit the /create form and add rows to pumpkin_design table
-- Wrote all classes in models.py, and mapped out their relationships
+- Wrote classes in models.py to create tables (initially with SQLite), and mapped out their relationships
+- In app.py, set up routes to allow for create, order and thank you pages
+- Allowed users to submit a pumpkin design, which adds a row to the pumpkin_design table
+- Allowed users to add many pumpkin designs to one order

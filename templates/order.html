@@ -12,25 +12,29 @@
 
 <div class="card narrow-card">
     <div class="card-body">
-        <h3 class="card-title">Your design</h3>
+        <h3 class="card-title">Your order</h3>
 
         <ul>
             <li>
-                Size: {{ pumpkin.size }}
+                Created at: {{ order.created_at }}
             </li>
-            <li>
-                Eyes: {{ pumpkin.eyes }}
-            </li>
-            <li>
-                Mouth: {{ pumpkin.mouth }}
-            </li>
-            <li>
-                Amount: {{ pumpkin.amount }}
-            </li>
+
 
         </ul>
 
-
+        <ul>
+            {% for pumpkin in order.pumpkins %}
+            <li>
+                Pumpkin #{{ loop.index }}:
+                Size: {{ pumpkin.size }} |
+                Eyes: {{ pumpkin.eyes }} |
+                Mouth: {{ pumpkin.mouth }} |
+                Amount: {{ pumpkin.amount }}
+            </li>
+            {% else %}
+            <li>No pumpkins found for this order.</li>
+            {% endfor %}
+        </ul>
     </div>
 </div>
 
@@ -38,7 +42,7 @@
     <div class="card-body">
         <h3 class="card-title">Order details</h3>
 
-        <form id="order-form" action="{{url_for('order_action')}}" method="post">
+        <form id="order-form" action="{{url_for('order_action', order_id=order.order_id)}}" method="post">
             <!-- <div class="mb-3">
                 <fieldset>
                     <legend>
@@ -66,6 +70,11 @@
             <button type="submit" class="btn btn-info m-2">Create my Pumpkin</button>
         -->
             <button type="submit" class="btn btn-info m-2">Place order</button>
+        </form>
+
+        <form id="add-another-pumpkin" action="{{url_for('add_another_pumpkin', order_id=order.order_id)}}"
+            method="get">
+            <button type="submit" class="btn btn-info m-2">Add another pumpkin</button>
         </form>
 
     </div>

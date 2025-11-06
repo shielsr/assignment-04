@@ -25,7 +25,7 @@ class Order(db.Model):
     __tablename__ = 'order'
     order_id: Mapped[int] = mapped_column(primary_key=True)
     created_at: Mapped[datetime] = mapped_column(nullable=False,  default=lambda: datetime.now(timezone.utc))
-    fulfilment: Mapped[str] = mapped_column(nullable=False, default = "Order placed")
+    status: Mapped[str] = mapped_column(nullable=True)
 
     customer_id: Mapped[int] = mapped_column(db.ForeignKey('customer.customer_id'), nullable=True)
     
@@ -33,7 +33,7 @@ class Order(db.Model):
     pumpkins = db.relationship('PumpkinDesign', back_populates='order')  # one-to-many
      
     def __repr__(self):
-        return f"Order (orderId='{self.order_id}', fulfilment='{self.fulfilment}')"
+        return f"Order (orderId='{self.order_id}', status='{self.status}')"
 
 
 class PumpkinDesign(db.Model):
