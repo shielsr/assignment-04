@@ -56,6 +56,7 @@ footer {
 
 
 
+
 /* --------------------- Desktop breakpoint --------------------- */
 
 
@@ -78,6 +79,10 @@ footer {
 
     .logo-footer {
         width: 300px;
+    }
+
+    .card {
+        width:60%;
     }
 
 }

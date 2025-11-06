@@ -13,4 +13,7 @@ The following is a step-by-step account of how I did the project, which closely 
 - Wrote classes in models.py to create tables (initially with SQLite), and mapped out their relationships
 - In app.py, set up routes to allow for create, order and thank you pages
 - Allowed users to submit a pumpkin design, which adds a row to the pumpkin_design table
-- Allowed users to add many pumpkin designs to one order
+- Set up the routes so the order_id can be passed through the whole user journey
+- Allowed users to add many pumpkin designs to one order_id in the order table
+- Created /admin page, with a jinja loop listing the orders and a nested loop listing the pumpkins in each order
+

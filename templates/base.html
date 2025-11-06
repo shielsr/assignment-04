@@ -24,13 +24,13 @@
 
 <body>
   <div id="wrapper">
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark p-2">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-2">
       <div class="container-fluid">
         <a class="navbar-brand" href="{{ url_for('index') }}">
-            🎃
-        <!-- Fix this later <img src="{{ url_for('static', filename='images/logos') }}/pick-a-pumpkin-logo.png"
+          🎃
+          <!-- Fix this later <img src="{{ url_for('static', filename='images/logos') }}/pick-a-pumpkin-logo.png"
             alt="Pick a Pumpkin" class="img-fluid align-top" id="logo-navbar">
-            -->  Pick-a-Pumpkin
+            --> Pick-a-Pumpkin
         </a>
 
         <!-- Hamburger menu button -->
@@ -48,6 +48,9 @@
             <li class="nav-item">
               <a class="nav-link active" href="{{ url_for('create_pumpkin_page') }}">Create</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="{{ url_for('admin_page') }}">Admin</a>
+            </li>
 
 
           </ul>
@@ -64,7 +67,7 @@
     </main>
 
     <footer class="m-3">
-            <p>&copy; Rob Shiels 2025. This is a college project.</p>
+      <p>&copy; Rob Shiels 2025. This is a college project.</p>
     </footer>
   </div>
 

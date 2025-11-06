@@ -50,7 +50,7 @@ class PumpkinDesign(db.Model):
     order = db.relationship('Order', back_populates='pumpkins')
 
     def __repr__(self):
-        return f"Pumpkin Design (size='{self.size}', eyes='{self.eyes}', mouth='{self.mouth}')"
+        return f"Pumpkin Design (order_id='{self.order_id}', size='{self.size}', eyes='{self.eyes}', mouth='{self.mouth}')"
     
 
 

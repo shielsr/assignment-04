@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+
+
+
+<div class="title-block">
+    <h1>Admin</h1>
+</div>
+
+        <h3 class="card-title">Customer orders</h3>
+
+
+
+
+
+        {% for order in orders %}
+        <div class="card mb-3 p-3">
+            <h3>Order #{{ order.order_id }}</h3>
+            <p><strong>Customer:</strong> {{ order.customer_name }}</p>
+
+            {% if order.pumpkins %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Size</th>
+                        <th>Eyes</th>
+                        <th>Mouth</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pumpkin in order.pumpkins %}
+                    <tr>
+                        <td>{{ pumpkin.size }}</td>
+                        <td>{{ pumpkin.eyes }}</td>
+                        <td>{{ pumpkin.mouth }}</td>
+                        <td>{{ pumpkin.amount }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p class="text-muted">No pumpkins for this order yet.</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+
+
+
+
+{% endblock %}

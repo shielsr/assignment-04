@@ -85,6 +85,17 @@ def order_thanks(order_id):
     order = Order.query.get_or_404(order_id)
     return render_template('thanks.html', order=order)
 
+
+# @app.route("/admin")
+# def admin_page():
+#    return render_template("admin.html", orders=Order.query.all(), pumpkins=PumpkinDesign.query.all())
+
+@app.route("/admin")
+def admin_page():
+    orders = Order.query.order_by(Order.order_id).all()
+    return render_template("admin.html", orders=orders)
+
+
 # --- Seed defaults ---
 def seed_defaults():
     if not Customer.query.first():  # Only seed if empty
