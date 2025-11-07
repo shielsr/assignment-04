@@ -17,7 +17,7 @@ class User(db.Model, UserMixin):
     name: Mapped[str] = mapped_column(nullable=False)
     email: Mapped[str] = mapped_column(nullable=False)
     address: Mapped[str] = mapped_column(nullable=False)
-    role: Mapped[str] = mapped_column(nullable=False)
+    role: Mapped[str] = mapped_column(nullable=False, default="customer")
 
     orders = db.relationship('Order', back_populates='customer')
 

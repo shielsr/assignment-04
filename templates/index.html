@@ -6,11 +6,28 @@
 
 
 <div class="title-block">
-      <h1>Welcome to Pick a Pumpkin</h1>
+    <h1>Welcome to Pick a Pumpkin</h1>
 </div>
+{% if current_user.is_authenticated %}
+Hello {{ current_user.username }}
+{% endif %}
 
 
 
+<div class="card">
+    <div class="card-body">
+        <h3 class="card-title">Login</h3>
+
+
+
+        <a href="{{ url_for('signup') }}">Sign up</a>
+
+        <a href="{{ url_for('login') }}">Log in</a>
+
+        <a href="{{ url_for('logout') }}">Log out</a>
+
+    </div>
+</div>
 
 
 {% endblock %}

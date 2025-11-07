@@ -19,11 +19,15 @@ app = Flask(__name__)
 app.config.from_object('config')  # Load configuration from config.py
 
 login_manager = LoginManager(app)
-login_manager.login_view = "login_page"
+login_manager.login_view = "index"
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+@login_manager.unauthorized_handler
+def unauthorize_callback():
+    return redirect(url_for("signup"))
 
 bcrypt = Bcrypt(app)
 
@@ -37,25 +41,57 @@ def index():
     # Render the home page
     return render_template('index.html')
     
-@app.route('/signup', methods=['GET', 'POST'])
+@app.route('/signup', methods=["GET", "POST"])
 def signup():
     if request.method == "GET":
         return render_template('signup.html')
     elif request.method == "POST":
-        pass
+        password = request.form.get('password')
+        hashed_password = bcrypt.generate_password_hash(password)
+          
+        user = User(
+            username = request.form.get('username'),
+            password = hashed_password,
+            name=request.form["name"],
+            email=request.form["email"],
+            address=request.form["address"]
+        )
+        
+        
+        
+        
+        db.session.add(user)
+        db.session.commit()
+        return redirect(url_for('index'))
 
-@app.route('/login/<user_id>')
-def login(user_id):
-    user = User.query.get(user_id)
-    login_user(user)
-    return 'Success'
+        
+@app.route('/login', methods=["GET", "POST"])
+def login():
+    if request.method == "GET":
+        return render_template("login.html")
+    elif request.method == "POST":
+        username = request.form.get('username')
+        password = request.form.get('password')
+    
+        user = User.query.filter(User.username == username).first()    
+
+        if bcrypt.check_password_hash(user.password, password):
+            login_user(user)
+            if current_user.role == 'admin':
+               return redirect(url_for('admin'))
+            else:
+                return redirect(url_for('index'))
+        else:
+            return 'Failed'
 
 @app.route('/logout')
+@login_required
 def logout():
     logout_user()
-    return 'Logged out'
+    return redirect(url_for('index'))
 
 @app.route('/create')
+@login_required
 def create_pumpkin_page():
     # Render the 'Create' page
     
@@ -129,6 +165,7 @@ def order_thanks(order_id):
 #    return render_template("admin.html", orders=Order.query.all(), pumpkins=PumpkinDesign.query.all())
 
 @app.route("/admin")
+@login_required
 def admin_page():
     orders = Order.query.order_by(Order.order_id).all()
     return render_template("admin.html", orders=orders)
