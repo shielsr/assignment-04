@@ -1,11 +1,31 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, session
+from flask_login import (
+    LoginManager,
+    login_user,
+    logout_user,
+    login_required,
+    current_user,
+)
+from flask_bcrypt import Bcrypt
+
 from models import *
+
+
+
 
 
 app = Flask(__name__)
 app.config.from_object('config')  # Load configuration from config.py
 
+login_manager = LoginManager(app)
+login_manager.login_view = "login_page"
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+bcrypt = Bcrypt(app)
 
 with app.app_context():
     db.init_app(app)  # It connects the SQLAlchemy db object with the Flask app and the DBMS engine
@@ -16,6 +36,24 @@ with app.app_context():
 def index():
     # Render the home page
     return render_template('index.html')
+    
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == "GET":
+        return render_template('signup.html')
+    elif request.method == "POST":
+        pass
+
+@app.route('/login/<user_id>')
+def login(user_id):
+    user = User.query.get(user_id)
+    login_user(user)
+    return 'Success'
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return 'Logged out'
 
 @app.route('/create')
 def create_pumpkin_page():
@@ -98,12 +136,11 @@ def admin_page():
 
 # --- Seed defaults ---
 def seed_defaults():
-    if not Customer.query.first():  # Only seed if empty
-        customer1 = Customer(name="Bill Preston", email="bill@preston.com", address="12 Avenue Lane, Cork")
-        customer2 = Customer(name="Ted Logan", email="ted@logan.com", address="43A Road Street, Limerick")
+    if not User.query.first():  # Only seed if empty
+        customer1 = User(username="billpreston", password="1234asdf", name="Bill S. Preston", email="bill@spreston.com", address="12 Avenue Lane, Cork", role="customer")
+        customer2 = User(username="tedlogan", password="asdf1234", name="Ted Theodore Logan", email="ted@theodorelogan.com", address="43A Road Street, Limerick", role="customer")
         db.session.add_all([customer1, customer2])
         db.session.commit()
-
 
     if not PumpkinDesign.query.first():  # Only seed if empty
         design1 = PumpkinDesign(design_id=1, size="Large", eyes="Scary", mouth="Sad", amount=3, created_at=datetime(2025, 10, 14, 15, 30), order_id=1)

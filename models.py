@@ -1,5 +1,6 @@
 from datetime import datetime, timezone
 
+from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -8,18 +9,24 @@ db = SQLAlchemy()
 
 
 
-class Customer(db.Model):
-    __tablename__ = 'customer'
-    customer_id: Mapped[int] = mapped_column(primary_key=True)
+class User(db.Model, UserMixin):
+    __tablename__ = 'user'
+    user_id: Mapped[int] = mapped_column(primary_key=True)
+    username: Mapped[str] = mapped_column(nullable=False)
+    password: Mapped[str] = mapped_column(nullable=False)
     name: Mapped[str] = mapped_column(nullable=False)
     email: Mapped[str] = mapped_column(nullable=False)
-    address: Mapped[str] = mapped_column(nullable=False)   
+    address: Mapped[str] = mapped_column(nullable=False)
+    role: Mapped[str] = mapped_column(nullable=False)
 
     orders = db.relationship('Order', back_populates='customer')
 
     def __repr__(self):
-        return f"User(name='{self.name}')"
+        return f"User(name='{self.name}', username='{self.username}', role='{self.role}')"
 
+    def get_id(self):
+        return self.user_id
+    
 
 class Order(db.Model):
     __tablename__ = 'order'
@@ -27,9 +34,9 @@ class Order(db.Model):
     created_at: Mapped[datetime] = mapped_column(nullable=False,  default=lambda: datetime.now(timezone.utc))
     status: Mapped[str] = mapped_column(nullable=True)
 
-    customer_id: Mapped[int] = mapped_column(db.ForeignKey('customer.customer_id'), nullable=True)
+    customer_id: Mapped[int] = mapped_column(db.ForeignKey('user.user_id'), nullable=True)
     
-    customer = db.relationship('Customer', back_populates='orders')
+    customer = db.relationship('User', back_populates='orders')
     pumpkins = db.relationship('PumpkinDesign', back_populates='order')  # one-to-many
      
     def __repr__(self):
