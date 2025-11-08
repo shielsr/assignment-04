@@ -17,4 +17,6 @@ The following is a step-by-step account of how I did the project, which closely 
 - Allowed users to add many pumpkin designs to one order_id in the order table
 - Created /admin page, with a jinja loop listing the orders and a nested loop listing the pumpkins in each order
 - Built login/logout authentication, following Yoni's lectures and this YouTube tutorial: https://www.youtube.com/watch?v=t9zA1gvrTvo&list=PL7yh-TELLS1EyAye_UMnlsTGKxg8uatkM&index=8
-
+- Improved page template and layout. Included page titles with Jinja.
+- Recoded forms for better layout and fixes. Added new Bootstrap styles and custom CSS 
+- Added 'Show password' checkbox in forms using Javascript

@@ -34,7 +34,7 @@ class Order(db.Model):
     created_at: Mapped[datetime] = mapped_column(nullable=False,  default=lambda: datetime.now(timezone.utc))
     status: Mapped[str] = mapped_column(nullable=True)
 
-    customer_id: Mapped[int] = mapped_column(db.ForeignKey('user.user_id'), nullable=True)
+    customer_id: Mapped[int] = mapped_column(db.ForeignKey('user.user_id'), nullable=False)
     
     customer = db.relationship('User', back_populates='orders')
     pumpkins = db.relationship('PumpkinDesign', back_populates='order')  # one-to-many

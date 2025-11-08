@@ -1,3 +1,4 @@
+{% set title = "Login" %}
 {% extends "base.html" %}
 
 {% block main %}
@@ -5,24 +6,34 @@
 
 
 
-<div class="title-block">
-    <h1>Login</h1>
-</div>
-
-
 <div class="card">
-      <div class="card-body">
-            <h3 class="card-title">Login</h3>
+    <div class="card-body">
+        <h5 class="card-title mb-3">Enter your details</h5>
 
+        <form action="{{ url_for('login') }}" method="POST">
+            <div class="mb-3">
 
-            <form action="{{ url_for('login') }}" method="POST">
-                  <input type="text" name="username" placehoder="Username" required>
-                  <input type="password" name="password" placehoder="Password" required>
-                  <button type="submit" class="btn btn-info m-2">Sign up</button>
-            </form>
+                <label for="login-username" class="form-label">
+                    Username:
+                </label>
+                <input type="text" class="form-control" id="login-username" name="username" placehoder="Username"
+                    required>
+            </div>
+            <div class="mb-3">
+                <label for="login-password" class="form-label">
+                    Password:
+                </label>
+                <input type="password" class="form-control mb-2 password-field" id="login-password" name="password" placehoder="Password"
+                    required>
+                <input class="form-check-input show-password" type="checkbox" id="showPassword">
+                <label class="form-check-label" for="showPassword">
+                    Show password
+                </label>
 
-
-      </div>
+            </div>
+            <button type="submit" class="btn btn-primary m-2">Sign up</button>
+        </form>
+    </div>
 </div>
 
 

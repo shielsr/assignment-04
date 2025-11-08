@@ -62,7 +62,7 @@ def signup():
         
         db.session.add(user)
         db.session.commit()
-        return redirect(url_for('index'))
+        return redirect(url_for('login'))
 
         
 @app.route('/login', methods=["GET", "POST"])
@@ -78,7 +78,7 @@ def login():
         if bcrypt.check_password_hash(user.password, password):
             login_user(user)
             if current_user.role == 'admin':
-               return redirect(url_for('admin'))
+               return redirect(url_for('admin')) # A special page for admins
             else:
                 return redirect(url_for('index'))
         else:
@@ -160,10 +160,6 @@ def order_thanks(order_id):
     return render_template('thanks.html', order=order)
 
 
-# @app.route("/admin")
-# def admin_page():
-#    return render_template("admin.html", orders=Order.query.all(), pumpkins=PumpkinDesign.query.all())
-
 @app.route("/admin")
 @login_required
 def admin_page():
@@ -174,20 +170,20 @@ def admin_page():
 # --- Seed defaults ---
 def seed_defaults():
     if not User.query.first():  # Only seed if empty
-        customer1 = User(username="billpreston", password="1234asdf", name="Bill S. Preston", email="bill@spreston.com", address="12 Avenue Lane, Cork", role="customer")
-        customer2 = User(username="tedlogan", password="asdf1234", name="Ted Theodore Logan", email="ted@theodorelogan.com", address="43A Road Street, Limerick", role="customer")
+        customer1 = User(username="bill", password="1234asdf", name="Bill S. Preston Esq.", email="bill@spreston.com", address="12 Avenue Lane, Cork", role="customer")
+        customer2 = User(username="ted", password="asdf1234", name="Ted 'Theodore' Logan", email="ted@theodorelogan.com", address="43A Road Street, Limerick", role="customer")
         db.session.add_all([customer1, customer2])
         db.session.commit()
 
     if not PumpkinDesign.query.first():  # Only seed if empty
-        design1 = PumpkinDesign(design_id=1, size="Large", eyes="Scary", mouth="Sad", amount=3, created_at=datetime(2025, 10, 14, 15, 30), order_id=1)
+        design1 = PumpkinDesign(design_id=1, size="large", eyes="scary", mouth="sad", amount=3, created_at=datetime(2025, 10, 14, 15, 30), order_id=1)
         db.session.add_all([design1])
         db.session.commit()
 
 
    
     if not Order.query.first():  # Only seed if empty
-        order1 = Order(order_id=1, created_at=datetime(2025, 10, 14, 15, 30), status="Order placed")
+        order1 = Order(order_id=1, created_at=datetime(2025, 10, 14, 15, 30), status="Being carved")
         db.session.add_all([order1])
         db.session.commit()
 

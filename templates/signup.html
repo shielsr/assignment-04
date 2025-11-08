@@ -1,3 +1,4 @@
+{% set title = "Sign up" %}
 {% extends "base.html" %}
 
 {% block main %}
@@ -5,27 +6,57 @@
 
 
 
-<div class="title-block">
-      <h1>Register</h1>
-</div>
-
+<p>Already have an account?  <a class="" href="{{ url_for('login') }}">Log in instead</a></p>
 
 <div class="card">
       <div class="card-body">
-            <h3 class="card-title">Sign up</h3>
-
+            <h5 class="card-title mb-3">Enter your details</h5>
 
             <form action="{{ url_for('signup') }}" method="POST">
-                  <input type="text" name="username" placehoder="Username" required>
-                  <input type="password" name="password" placehoder="Password" required>
-                  <input type="text" name="name" placehoder="Name" required>
-                  <input type="text" name="email" placehoder="Email" required>
-                  <input type="text" name="address" placehoder="Address" required>
-                  <button type="submit" class="btn btn-info m-2">Sign up</button>
+                  <div class="mb-3">
+                        <label for="signup-username" class="form-label">
+                              Username:
+                        </label>
+                        <input type="text" class="form-control" id="signup-username" name="username"
+                              placehoder="Username" required>
+                  </div>
+                  <div class="mb-3">
+                        <label for="signup-password" class="form-label">
+                              Password:
+                        </label>
+                        <input type="password" class="form-control mb-2 password-field" id="signup-password" name="password"
+                              placehoder="Password" required>
+                        <input class="form-check-input show-password" type="checkbox" id="showPassword">
+                        <label class="form-check-label" for="showPassword">
+                              Show password
+                        </label>
+                  </div>
+                  <div class="mb-3">
+                        <label for="signup-name" class="form-label">
+                              Name:
+                        </label>
+                        <input type="text" class="form-control" id="signup-name" name="name" placehoder="Name" required>
+                  </div>
+                  <div class="mb-3">
+                        <label for="signup-email" class="form-label">
+                              Email:
+                        </label>
+                        <input type="text" class="form-control" id="signup-email" name="email" placehoder="Email"
+                              required>
+                  </div>
+                  <div class="mb-3">
+                        <label for="signup-address" class="form-label">
+                              Delivery address:
+                        </label>
+                        <input type="text" class="form-control" id="signup-address" name="address" placehoder="Address"
+                              required>
+                  </div>
+                  <button type="submit" class="btn btn-primary m-2">Sign up</button>
             </form>
-
-
       </div>
 </div>
+
+
+
 
 {% endblock %}

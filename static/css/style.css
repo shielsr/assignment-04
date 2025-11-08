@@ -54,6 +54,10 @@ footer {
     margin-top: auto;
 }
 
+.button-group-inline {
+    display:flex;
+}
+
 
 
 

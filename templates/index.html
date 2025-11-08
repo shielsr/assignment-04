@@ -1,3 +1,4 @@
+{% set title = "Welcome to Carv" %}
 {% extends "base.html" %}
 
 {% block main %}
@@ -5,9 +6,6 @@
 
 
 
-<div class="title-block">
-    <h1>Welcome to Pick a Pumpkin</h1>
-</div>
 {% if current_user.is_authenticated %}
 Hello {{ current_user.username }}
 {% endif %}

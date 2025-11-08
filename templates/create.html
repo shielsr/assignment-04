@@ -1,3 +1,4 @@
+{% set title = "Create" %}
 {% extends "base.html" %}
 
 {% block main %}
@@ -5,28 +6,20 @@
 
 
 
-<div class="title-block">
-    <h1>Create page</h1>
-</div>
-
-
 <div class="card">
     <div class="card-body">
-        <h3 class="card-title">Create form</h3>
+        <h5 class="card-title mb-3">Design your Carvd pumpkin</h5>
 
 
         <form id="pumpkin-create-form" action="{{url_for('create_pumpkin_action')}}" method="post">
             <div class="mb-3">
 
-
-
-
-
-                <fieldset>
-                    <legend>Size:</legend>
+                <div class="mb-3">
+                    <label class="form-label">
+                        Size:
+                    </label>
                     <div class="form-check">
-                        <input type="radio" id="size-small" name="size" value="small"
-                            class="form-check-input">
+                        <input type="radio" id="size-small" name="size" value="small" class="form-check-input">
                         <label for="size-small" class="form-check-label">Small</label><br>
                     </div>
                     <div class="form-check">
@@ -35,41 +28,43 @@
                         <label for="size-medium" class="form-check-label">Medium</label><br>
                     </div>
                     <div class="form-check">
-                        <input type="radio" id="size-large" name="size" value="large"
-                            class="form-check-input">
+                        <input type="radio" id="size-large" name="size" value="large" class="form-check-input">
                         <label for="size-large" class="form-check-label">Large</label>
                     </div>
-                </fieldset>
+                </div>
 
-                <fieldset>
-                    <legend>Eyes:</legend>
+                <div class="mb-3">
+                    <label for="eye-select" class="form-label">
+                        Eyes:
+                    </label>
                     <select id="eye-select" name="eyes" class="form-select" aria-label="Select pumpkin eyes">
-                        <option selected>Select eyes</option>
+                        <option value="" disabled selected>Select eyes</option>
                         <option value="scary">Scary</option>
                         <option value="crazy">Crazy</option>
                         <option value="friendly">Friendly</option>
                     </select>
-                </fieldset>
+                </div>
 
-                <fieldset>
-                    <legend>Mouth:</legend>
+                <div class="mb-3">
+                    <label for="mouth-select" class="form-label">
+                        Mouth:
+                    </label>
                     <select id="mouth-select" name="mouth" class="form-select" aria-label="Select pumpkin mouth">
-                        <option selected>Select mouth</option>
+                        <option value="" disabled selected>Select mouth</option>
                         <option value="vampire">Vampire</option>
                         <option value="smile">Smile</option>
                         <option value="sad">Sad</option>
                     </select>
-                </fieldset>
+                </div>
 
-                <fieldset>
-                    <legend>
-                        Amount of pumpkins:
-                    </legend>
-                    <input type="number" name="amount" id="red-quantity" min="0" max="6" step="1" inputmode="numeric">
-                </fieldset>
+                <div class="mb-3">
+                    <label for="pumpkin-amount" class="form-label">
+                        Amount of pumpkins (10 maximum):
+                    </label>
+                    <input class="form-control" type="number" name="amount" placeholder="1" id="pumpkin-amount" min="1" max="10" step="1" inputmode="numeric">
+                </div>
             </div>
-            <p id="create-form-error-message" class="error-message"></p>
-            <button type="submit" class="btn btn-info m-2">Add to my order</button>
+            <button type="submit" class="btn btn-primary m-2">Add to my order</button>
         </form>
 
     </div>
