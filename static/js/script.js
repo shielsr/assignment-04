@@ -1,3 +1,5 @@
+// The 'Show password' checkboxes
+
 document.addEventListener("DOMContentLoaded", function () {
   // Select all checkboxes with the class .show-passwords
   const toggles = document.querySelectorAll(".show-password");
@@ -15,6 +17,10 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
+/* Changing the status on the /admin page. 
+This (indirectly) checks the order.status from the db 
+and, in the HTML select dropdown, adds the 'selected' attribute to it. */
+
 document.addEventListener('DOMContentLoaded', () => {
     // Get all selects with the class 'order-status'
     const selects = document.querySelectorAll('select.order-status');
@@ -31,3 +37,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
