@@ -105,12 +105,17 @@ def create_pumpkin_action():
     )
     db.session.add(order)
     db.session.commit()
-    # Aware that it's better to use get() so I can include defaults
+    # Using gets() to set up defaults, for safety
+    size = request.form.get("size", "medium").capitalize()
+    eyes = request.form.get("eyes", "scary").capitalize()
+    mouth = request.form.get("mouth", "sad").capitalize()
+    amount = int(request.form.get("amount", "1"))
+    
     pumpkin = PumpkinDesign(
-        size=request.form["size"],
-        eyes=request.form["eyes"],
-        mouth=request.form["mouth"],
-        amount=request.form["amount"],
+        size=size,
+        eyes=eyes,
+        mouth=mouth,
+        amount=amount,
         order_id = order.order_id  # Adds the order id to the pumpkin_design table
     )
     
@@ -131,12 +136,18 @@ def add_another_pumpkin(order_id):
 def add_another_action(order_id):
     order = Order.query.get_or_404(order_id)
     
+    # Using gets() to set up defaults, for safety
+    size = request.form.get("size", "medium").capitalize()
+    eyes = request.form.get("eyes", "scary").capitalize()
+    mouth = request.form.get("mouth", "sad").capitalize()
+    amount = int(request.form.get("amount", "1"))
+    
     pumpkin = PumpkinDesign(
-        size=request.form["size"],
-        eyes=request.form["eyes"],
-        mouth=request.form["mouth"],
-        amount=request.form["amount"],
-        order_id = order.order_id  # Adds the order_id to the pumpkin_design table
+        size=size,
+        eyes=eyes,
+        mouth=mouth,
+        amount=amount,
+        order_id = order.order_id  # Adds the order id to the pumpkin_design table
     )
     
     db.session.add(pumpkin)
@@ -228,7 +239,7 @@ def seed_defaults():
         db.session.commit()
 
     if not PumpkinDesign.query.first():  # Only seed if empty
-        design1 = PumpkinDesign(design_id=1, size="large", eyes="scary", mouth="sad", amount=3, created_at=datetime(2025, 10, 14, 15, 30), order_id=1)
+        design1 = PumpkinDesign(design_id=1, size="Large", eyes="Scary", mouth="Sad", amount=3, created_at=datetime(2025, 10, 14, 15, 30), order_id=1)
         db.session.add_all([design1])
         db.session.commit()
     
@@ -237,7 +248,6 @@ def seed_defaults():
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()   # Create tables if not exist
-        seed_defaults()   # Add default data if empty
      
     # gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 app:app
     app.run(debug=True, port=8000)

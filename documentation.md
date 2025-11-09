@@ -25,3 +25,8 @@ The following is a step-by-step account of how I did the project, which closely 
 - Wrote a delete_order function, allowing users to cancel orders on the /order and on the /my-account pages
 - Wrote update function for the /admin page. Admins can update the status of orders, which the user can see in their account
 - Added docstrings for relevant functions
+- Spent a lot of time troubleshooting deploying the site to Render.com. Some issues encountered:
+    - I didn't have gunicorn and psyco??? listed in my requirements
+    - Postgres doesn't like PRAGMA, which I needed for cascade deleting in Sqlite. Had to remove it.
+    - The seed data I triggered with Sqlite didn't work. I had to put them behind a route (/seed)
+- Added validation to the /create and /add forms.  Added 'required' attribute in the HTML.  In Python, I added .get() requests so I could include defaults 

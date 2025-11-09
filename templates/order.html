@@ -90,16 +90,16 @@
             </tbody>
         </table>
 
+        <form id="add-another-pumpkin" action="{{url_for('add_another_pumpkin', order_id=order.order_id)}}"
+            method="get">
+            <button type="submit" class="btn btn-secondary m-2">Add another pumpkin</button>
+        </form>
         <div class="button-group-inline">
-            <form id="add-another-pumpkin" action="{{url_for('add_another_pumpkin', order_id=order.order_id)}}"
-                method="get">
-                <button type="submit" class="btn btn-secondary m-2">Add another pumpkin</button>
+            <form id="order-form-cancel" action="{{url_for('delete_order', order_id=order.order_id)}}" method="post">
+                <button type="submit" class="btn btn-warning m-2">Cancel order</button>
             </form>
             <form id="order-form-confirm" action="{{url_for('order_action', order_id=order.order_id)}}" method="post">
                 <button type="submit" class="btn btn-primary m-2">Confirm order</button>
-            </form>
-            <form id="order-form-cancel" action="{{url_for('delete_order', order_id=order.order_id)}}" method="post">
-                <button type="submit" class="btn btn-primary m-2">Cancel order</button>
             </form>
         </div>
     </div>

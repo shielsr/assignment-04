@@ -37,7 +37,7 @@
                     <label for="eye-select" class="form-label">
                         Eyes:
                     </label>
-                    <select id="eye-select" name="eyes" class="form-select" aria-label="Select pumpkin eyes">
+                    <select id="eye-select" name="eyes" class="form-select" aria-label="Select pumpkin eyes" required>
                         <option value="" disabled selected>Select eyes</option>
                         <option value="scary">Scary</option>
                         <option value="crazy">Crazy</option>
@@ -49,7 +49,7 @@
                     <label for="mouth-select" class="form-label">
                         Mouth:
                     </label>
-                    <select id="mouth-select" name="mouth" class="form-select" aria-label="Select pumpkin mouth">
+                    <select id="mouth-select" name="mouth" class="form-select" aria-label="Select pumpkin mouth" required>
                         <option value="" disabled selected>Select mouth</option>
                         <option value="vampire">Vampire</option>
                         <option value="smile">Smile</option>
@@ -61,7 +61,7 @@
                     <label for="pumpkin-amount" class="form-label">
                         Amount of pumpkins (10 maximum):
                     </label>
-                    <input class="form-control" type="number" name="amount" placeholder="1" value="1" id="pumpkin-amount" min="1" max="10" step="1" inputmode="numeric">
+                    <input class="form-control" type="number" name="amount" placeholder="1" value="1" id="pumpkin-amount" min="1" max="10" step="1" inputmode="numeric" required>
                 </div>
             </div>
             <button type="submit" class="btn btn-primary m-2">Add to my order</button>
