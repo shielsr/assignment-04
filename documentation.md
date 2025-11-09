@@ -24,3 +24,4 @@ The following is a step-by-step account of how I did the project, which closely 
 - Added an empty state on the /my-account page where the user hasn't created any orders
 - Wrote a delete_order function, allowing users to cancel orders on the /order and on the /my-account pages
 - Wrote update function for the /admin page. Admins can update the status of orders, which the user can see in their account
+- Added docstrings for relevant functions

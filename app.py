@@ -98,8 +98,9 @@ def create_pumpkin_page():
     return render_template('create.html')
 
 @app.route("/create/submit", methods=["POST"])
+@login_required
 def create_pumpkin_action():
-    """ Render """
+    """ Create new rows in the order and pumpkin_design tables """
     order = Order(
         # Generates a new order
         customer_id=current_user.user_id,
@@ -121,12 +122,15 @@ def create_pumpkin_action():
     return redirect(url_for("order_submit", order_id=order.order_id))
 
 
-@app.route("/create/add/<int:order_id>")
+@app.route("/create/add/<int:order_id>", methods=["GET"])
+@login_required
 def add_another_pumpkin(order_id):
+    """ This page allows the user to add additional pumpkins to their order """
     order = Order.query.get_or_404(order_id)
     return render_template('add.html', order_id=order.order_id)
 
 @app.route("/create/add/<int:order_id>", methods=["POST"])
+@login_required
 def add_another_action(order_id):
     order = Order.query.get_or_404(order_id)
     
@@ -135,7 +139,7 @@ def add_another_action(order_id):
         eyes=request.form["eyes"],
         mouth=request.form["mouth"],
         amount=request.form["amount"],
-        order_id = order.order_id  # Adds the order id to the pumpkin_design table
+        order_id = order.order_id  # Adds the order_id to the pumpkin_design table
     )
     
     db.session.add(pumpkin)
@@ -144,14 +148,17 @@ def add_another_action(order_id):
     return redirect(url_for("order_submit", order_id=order.order_id))
 
 @app.route('/order/<int:order_id>', methods=["GET"])
+@login_required
 def order_submit(order_id):
     order = Order.query.get_or_404(order_id)
     if order.status == "Confirmed":
-        return redirect(url_for("my_account"))
+        return redirect(url_for("my_account")) # This is only relevant if the admin changes the order status before the user has completed their order
     return render_template('order.html', order=order)
 
 @app.route("/order/<int:order_id>", methods=["POST"])
+@login_required
 def order_action(order_id):
+    """ When the user confirms their order """
     order = Order.query.get_or_404(order_id)
     order.status = "Confirmed"
     db.session.commit()
@@ -159,12 +166,16 @@ def order_action(order_id):
 
 
 @app.route("/order/thank-you/<int:order_id>", methods=["GET"])
+@login_required
 def order_thanks(order_id):
     order = Order.query.get_or_404(order_id)
     return render_template('thanks.html', order=order)
 
 @app.route("/order/<int:order_id>/delete", methods=["POST"])
+@login_required
 def delete_order(order_id):
+    """ Used on the /order page to cancel an Incomplete order, 
+    and on the /my-account page to cancel a Confirmed order """
     Order.query.filter(Order.order_id == order_id).delete()
     db.session.commit()
     return redirect(url_for("my_account"))
@@ -183,6 +194,7 @@ def my_account():
     return render_template("my-account.html", orders=orders)
 
 @app.route('/update_status/<int:order_id>', methods=['POST'])
+@login_required
 def update_status(order_id):
     new_status = request.form.get('status')
     order = Order.query.get_or_404(order_id)
