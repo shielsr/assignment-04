@@ -1,0 +1,116 @@
+{% set title = "My account" %}
+{% extends "base.html" %}
+
+{% block main %}
+
+
+<div class="card mb-4">
+    <div class="card-body">
+
+
+        <h5 class="card-title ">My details</h5>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th scope="row" class="hug">Name</th>
+                    <td>{{ current_user.name }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="hug">Email</th>
+                    <td>{{ current_user.email }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="hug">Username</th>
+                    <td>{{ current_user.username }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="hug">Address</th>
+                    <td>{{ current_user.address }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<h4 class="card-title mb-3">My orders</h4>
+
+
+{% if not orders %}
+<div class="card mb-3">
+    <div class="card-body">
+        <div class="pb-4">
+
+            <p>You haven't created any orders yet.</p>
+
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% for order in orders %}
+<div class="card mb-3">
+    <div class="card-body">
+        <div class="pb-4">
+
+
+
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th scope="row" class="hug">Order ID</th>
+                        <td>{{ order.order_id }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="hug">Created at</th>
+                        <td>{{ order.created_at }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="hug">Status</th>
+                        <td>{{ order.status }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <h5 class="card-title ">Pumpkin designs</h5>
+        {% if order.pumpkins %}
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Size</th>
+                    <th>Eyes</th>
+                    <th>Mouth</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pumpkin in order.pumpkins %}
+                <tr>
+                    <td>{{ pumpkin.size }}</td>
+                    <td>{{ pumpkin.eyes }}</td>
+                    <td>{{ pumpkin.mouth }}</td>
+                    <td>{{ pumpkin.amount }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>You haven't added a pumpkin yet.</p>
+        {% endif %}
+        {% if order.status != "Delivered" %}
+
+        <form id="order-form" action="{{url_for('delete_order', order_id=order.order_id)}}" method="post">
+            <button type="submit" class="btn btn-primary m-2">Cancel order</button>
+        </form>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
+
+
+
+
+
+{% endblock %}

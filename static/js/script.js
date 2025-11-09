@@ -13,3 +13,21 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Get all selects with the class 'order-status'
+    const selects = document.querySelectorAll('select.order-status');
+
+    selects.forEach(select => {
+        const status = (select.getAttribute('data-status') || '').trim();
+        if (!status) return;
+
+        // Case-insensitive match
+        Array.from(select.options).forEach(option => {
+            if (option.value.toLowerCase() === status.toLowerCase()) {
+                option.selected = true;
+            }
+        });
+    });
+});

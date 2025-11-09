@@ -1,4 +1,4 @@
-{% set title = "Order" %}
+{% set title = "Confirm order" %}
 {% extends "base.html" %}
 
 {% block main %}
@@ -6,31 +6,89 @@
 
 
 
-<div class="card">
+<div class="card mb-4">
     <div class="card-body">
-        <h5 class="card-title mb-3">Your order details</h5>
-
-        <ul>
-            <li>
-                Created at: {{ order.created_at }}
-            </li>
 
 
-        </ul>
+        <h5 class="card-title ">Customer information</h5>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th scope="row" class="hug">Name</th>
+                    <td>{{ order.customer.name }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="hug">Email</th>
+                    <td>{{ order.customer.email }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="hug">Username</th>
+                    <td>{{ order.customer.username }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="hug">Address</th>
+                    <td>{{ order.customer.address }}</td>
+                </tr>
+            </tbody>
+        </table>
 
-        <ul>
-            {% for pumpkin in order.pumpkins %}
-            <li>
-                Pumpkin #{{ loop.index }}:
-                Size: {{ pumpkin.size }},
-                Eyes: {{ pumpkin.eyes }},
-                Mouth: {{ pumpkin.mouth }},
-                Amount: {{ pumpkin.amount }}
-            </li>
-            {% else %}
-            <li>No pumpkins found for this order.</li>
-            {% endfor %}
-        </ul>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+
+
+
+        <h5 class="card-title">Order details</h5>
+
+
+
+
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th scope="row" class="hug">Created at</th>
+                    <td>{{ order.created_at }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="hug">Status</th>
+                    <td>{{ order.status }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+
+        <h5 class="card-title ">Pumpkin designs</h5>
+
+
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Size</th>
+                    <th>Eyes</th>
+                    <th>Mouth</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pumpkin in order.pumpkins %}
+                <tr>
+                    <td>{{ pumpkin.size }}</td>
+                    <td>{{ pumpkin.eyes }}</td>
+                    <td>{{ pumpkin.mouth }}</td>
+                    <td>{{ pumpkin.amount }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
         <div class="button-group-inline">
             <form id="add-another-pumpkin" action="{{url_for('add_another_pumpkin', order_id=order.order_id)}}"
@@ -38,7 +96,10 @@
                 <button type="submit" class="btn btn-secondary m-2">Add another pumpkin</button>
             </form>
             <form id="order-form" action="{{url_for('order_action', order_id=order.order_id)}}" method="post">
-                <button type="submit" class="btn btn-primary m-2">Complete order</button>
+                <button type="submit" class="btn btn-primary m-2">Confirm order</button>
+            </form>
+            <form id="order-form" action="{{url_for('delete_order', order_id=order.order_id)}}" method="post">
+                <button type="submit" class="btn btn-primary m-2">Cancel order</button>
             </form>
         </div>
     </div>

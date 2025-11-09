@@ -5,43 +5,97 @@
 
 
 
-        <h3 class="card-title mb-3">Customer orders</h3>
+<h4 class="card-title mb-3">Customer orders</h4>
 
 
 
 
 
-        {% for order in orders %}
-        <div class="card mb-3 p-3">
-            <h3>Order #{{ order.order_id }}</h3>
-            <p><strong>Customer:</strong> {{ order.customer_name }}</p>
+{% for order in orders %}
+<div class="card mb-3">
+    <div class="card-body">
+        <div class="pb-4">
 
-            {% if order.pumpkins %}
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Size</th>
-                        <th>Eyes</th>
-                        <th>Mouth</th>
-                        <th>Amount</th>
-                    </tr>
-                </thead>
+            <h5>Order ID {{ order.order_id }}</h5>
+
+            <table class="table">
                 <tbody>
-                    {% for pumpkin in order.pumpkins %}
                     <tr>
-                        <td>{{ pumpkin.size }}</td>
-                        <td>{{ pumpkin.eyes }}</td>
-                        <td>{{ pumpkin.mouth }}</td>
-                        <td>{{ pumpkin.amount }}</td>
+                        <th scope="row" class="hug">Name</th>
+                        <td>{{ order.customer.name }}</td>
                     </tr>
-                    {% endfor %}
+                    <tr>
+                        <th scope="row" class="hug">Email</th>
+                        <td>{{ order.customer.email }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="hug">Username</th>
+                        <td>{{ order.customer.username }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="hug">Address</th>
+                        <td>{{ order.customer.address }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="hug">Created at</th>
+                        <td>{{ order.created_at }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="hug">Status</th>
+                        <td>
+                            <div id="order-data" data-status="{{ order.status or '' }}"></div>
+                            <!-- The JS can pull in the status from this  -->
+                            <form action="{{ url_for('update_status', order_id=order.order_id) }}" method="POST"
+                                class="row g-3">
+                                <div class="col-auto"> <select name="status" class="order-status form-select"
+                                        data-status="{{ order.status or '' }}" aria-label="Order status">
+                                        <option value="Incomplete">Incomplete</option>
+                                        <option value="Confirmed">Confirmed</option>
+                                        <option value="Delivered">Delivered</option>
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <button type="submit" class="btn btn-primary ">Save new status</button>
+                                </div>
+                            </form>
+
+
+                        </td>
+                    </tr>
                 </tbody>
             </table>
-            {% else %}
-            <p class="text-muted">No pumpkins for this order yet.</p>
-            {% endif %}
+
         </div>
-        {% endfor %}
+
+        <h5 class="card-title ">Pumpkin designs</h5>
+        {% if order.pumpkins %}
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Size</th>
+                    <th>Eyes</th>
+                    <th>Mouth</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pumpkin in order.pumpkins %}
+                <tr>
+                    <td>{{ pumpkin.size }}</td>
+                    <td>{{ pumpkin.eyes }}</td>
+                    <td>{{ pumpkin.mouth }}</td>
+                    <td>{{ pumpkin.amount }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p class="text-muted">No pumpkins were added to this order. Please contact the customer.</p>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
 
 
 

@@ -8,7 +8,7 @@
 
 <div class="card">
     <div class="card-body">
-        <h5 class="card-title mb-3">Design your Carvd pumpkin</h5>
+        <h5 class="card-title mb-3">Design your pumpkin</h5>
 
 
         <form id="pumpkin-create-form" action="{{url_for('create_pumpkin_action')}}" method="post">
@@ -61,7 +61,7 @@
                     <label for="pumpkin-amount" class="form-label">
                         Amount of pumpkins (10 maximum):
                     </label>
-                    <input class="form-control" type="number" name="amount" placeholder="1" id="pumpkin-amount" min="1" max="10" step="1" inputmode="numeric">
+                    <input class="form-control" type="number" name="amount" placeholder="1" value="1" id="pumpkin-amount" min="1" max="10" step="1" inputmode="numeric">
                 </div>
             </div>
             <button type="submit" class="btn btn-primary m-2">Add to my order</button>

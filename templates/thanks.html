@@ -2,26 +2,14 @@
 {% extends "base.html" %}
 
 {% block main %}
-<p>Thank you for ordering from Carvd. We hopy you have a spooky Halloween!</p>
-
-<div class="card">
-    <div class="card-body">
-        <h5 class="card-title mb-3">Your order</h5>
+<p>Thank you for ordering from Carv. We hopy you have a spooky Halloween!</p>
 
 
-        <ul>
-            <li>
-                Status: {{ order.status }}
-            </li>
-
-
-
-        </ul>
-
-
-
-
-    </div>
+<div class="button-group-inline">
+    <form id="add-another-pumpkin" action="{{ url_for('my_account') }}" method="get">
+        <button type="submit" class="btn btn-primary m-2">Go to my account</button>
+    </form>
 </div>
+
 
 {% endblock %}

@@ -5,11 +5,14 @@ from flask_login import (
     login_user,
     logout_user,
     login_required,
-    current_user,
+    current_user
 )
 from flask_bcrypt import Bcrypt
 
-from models import *
+from datetime import datetime, timezone
+
+from models import Order, PumpkinDesign, User, db
+
 
 
 
@@ -38,11 +41,12 @@ with app.app_context():
 
 @app.route('/')
 def index():
-    # Render the home page
+    """ Render the homepage """
     return render_template('index.html')
     
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
+    """ Create the signup page and post a new user to the db """
     if request.method == "GET":
         return render_template('signup.html')
     elif request.method == "POST":
@@ -57,9 +61,6 @@ def signup():
             address=request.form["address"]
         )
         
-        
-        
-        
         db.session.add(user)
         db.session.commit()
         return redirect(url_for('login'))
@@ -67,6 +68,7 @@ def signup():
         
 @app.route('/login', methods=["GET", "POST"])
 def login():
+    """ Login page with password hashing """
     if request.method == "GET":
         return render_template("login.html")
     elif request.method == "POST":
@@ -78,7 +80,7 @@ def login():
         if bcrypt.check_password_hash(user.password, password):
             login_user(user)
             if current_user.role == 'admin':
-               return redirect(url_for('admin')) # A special page for admins
+               return redirect(url_for('admin_page')) # A special page for admins
             else:
                 return redirect(url_for('index'))
         else:
@@ -92,20 +94,20 @@ def logout():
 
 @app.route('/create')
 @login_required
-def create_pumpkin_page():
-    # Render the 'Create' page
-    
+def create_pumpkin_page():    
     return render_template('create.html')
 
 @app.route("/create/submit", methods=["POST"])
 def create_pumpkin_action():
-    # Action on submitting the form
+    """ Render """
     order = Order(
         # Generates a new order
+        customer_id=current_user.user_id,
+        status="Incomplete"
     )
     db.session.add(order)
     db.session.commit()
-    
+    # Aware that it's better to use get() so I can include defaults
     pumpkin = PumpkinDesign(
         size=request.form["size"],
         eyes=request.form["eyes"],
@@ -144,21 +146,28 @@ def add_another_action(order_id):
 @app.route('/order/<int:order_id>', methods=["GET"])
 def order_submit(order_id):
     order = Order.query.get_or_404(order_id)
+    if order.status == "Confirmed":
+        return redirect(url_for("my_account"))
     return render_template('order.html', order=order)
 
 @app.route("/order/<int:order_id>", methods=["POST"])
 def order_action(order_id):
     order = Order.query.get_or_404(order_id)
-    order.status = "Order placed"
+    order.status = "Confirmed"
     db.session.commit()
     return redirect(url_for("order_thanks", order_id=order.order_id))
 
 
-@app.route('/order/thank-you/<int:order_id>', methods=["GET"])
+@app.route("/order/thank-you/<int:order_id>", methods=["GET"])
 def order_thanks(order_id):
     order = Order.query.get_or_404(order_id)
     return render_template('thanks.html', order=order)
 
+@app.route("/order/<int:order_id>/delete", methods=["POST"])
+def delete_order(order_id):
+    Order.query.filter(Order.order_id == order_id).delete()
+    db.session.commit()
+    return redirect(url_for("my_account"))
 
 @app.route("/admin")
 @login_required
@@ -166,27 +175,44 @@ def admin_page():
     orders = Order.query.order_by(Order.order_id).all()
     return render_template("admin.html", orders=orders)
 
+@app.route("/my-account")
+@login_required
+def my_account():
+    orders = Order.query.filter_by(customer_id=current_user.user_id).order_by(Order.order_id).all()
+    # return (f"{current_user.user_id}")
+    return render_template("my-account.html", orders=orders)
+
+@app.route('/update_status/<int:order_id>', methods=['POST'])
+def update_status(order_id):
+    new_status = request.form.get('status')
+    order = Order.query.get_or_404(order_id)
+    order.status = new_status
+    db.session.commit()
+    return redirect(request.referrer or url_for('orders'))
+
+
+
+        
 
 # --- Seed defaults ---
 def seed_defaults():
     if not User.query.first():  # Only seed if empty
-        customer1 = User(username="bill", password="1234asdf", name="Bill S. Preston Esq.", email="bill@spreston.com", address="12 Avenue Lane, Cork", role="customer")
-        customer2 = User(username="ted", password="asdf1234", name="Ted 'Theodore' Logan", email="ted@theodorelogan.com", address="43A Road Street, Limerick", role="customer")
-        db.session.add_all([customer1, customer2])
+        customer1 = User(username="bill", password=bcrypt.generate_password_hash("bill"), name="Bill S. Preston Esq.", email="bill@spreston.com", address="12 Avenue Lane, Cork", role="customer")
+        customer2 = User(username="ted", password=bcrypt.generate_password_hash("ted"), name="Ted 'Theodore' Logan", email="ted@theodorelogan.com", address="43A Road Street, Limerick", role="customer")
+        admin1 = User(username="admin", password=bcrypt.generate_password_hash("admin"), name="Pat Carver", email="pat@carv.com", address="32 Street Road, Galway", role="admin")
+        
+        db.session.add_all([customer1, customer2, admin1])
+        db.session.commit()
+
+    if not Order.query.first():  # Only seed if empty
+        order1 = Order(order_id=1, created_at=datetime(2025, 10, 14, 15, 30), status="Delivered", customer_id=1)
+        db.session.add_all([order1])
         db.session.commit()
 
     if not PumpkinDesign.query.first():  # Only seed if empty
         design1 = PumpkinDesign(design_id=1, size="large", eyes="scary", mouth="sad", amount=3, created_at=datetime(2025, 10, 14, 15, 30), order_id=1)
         db.session.add_all([design1])
         db.session.commit()
-
-
-   
-    if not Order.query.first():  # Only seed if empty
-        order1 = Order(order_id=1, created_at=datetime(2025, 10, 14, 15, 30), status="Being carved")
-        db.session.add_all([order1])
-        db.session.commit()
-
 
 if __name__ == '__main__':
     with app.app_context():

@@ -58,7 +58,11 @@ footer {
     display:flex;
 }
 
-
+.table td.hug,
+.table th.hug {
+  width: 1%;
+  white-space: nowrap;
+}
 
 
 /* --------------------- Desktop breakpoint --------------------- */

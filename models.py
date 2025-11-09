@@ -5,8 +5,18 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-db = SQLAlchemy()
+from sqlalchemy import event
+from sqlalchemy.engine import Engine
 
+@event.listens_for(Engine, "connect")
+def set_sqlite_pragma(dbapi_connection, connection_record):
+    """This switches on cascade deleting with SQLite """
+    cursor = dbapi_connection.cursor()
+    cursor.execute("PRAGMA foreign_keys=ON")
+    cursor.close()
+
+
+db = SQLAlchemy()
 
 
 class User(db.Model, UserMixin):
@@ -15,7 +25,7 @@ class User(db.Model, UserMixin):
     username: Mapped[str] = mapped_column(nullable=False)
     password: Mapped[str] = mapped_column(nullable=False)
     name: Mapped[str] = mapped_column(nullable=False)
-    email: Mapped[str] = mapped_column(nullable=False)
+    email: Mapped[str] = mapped_column(nullable=False, unique=True)
     address: Mapped[str] = mapped_column(nullable=False)
     role: Mapped[str] = mapped_column(nullable=False, default="customer")
 
@@ -31,13 +41,13 @@ class User(db.Model, UserMixin):
 class Order(db.Model):
     __tablename__ = 'order'
     order_id: Mapped[int] = mapped_column(primary_key=True)
-    created_at: Mapped[datetime] = mapped_column(nullable=False,  default=lambda: datetime.now(timezone.utc))
+    created_at: Mapped[datetime] = mapped_column(nullable=False,  default=lambda: datetime.now(timezone.utc).replace(microsecond=0))
     status: Mapped[str] = mapped_column(nullable=True)
 
-    customer_id: Mapped[int] = mapped_column(db.ForeignKey('user.user_id'), nullable=False)
+    customer_id: Mapped[int] = mapped_column(db.ForeignKey('user.user_id'), nullable=False) # Add 'delete' button to delete customer and all associated ordres
     
     customer = db.relationship('User', back_populates='orders')
-    pumpkins = db.relationship('PumpkinDesign', back_populates='order')  # one-to-many
+    pumpkins = db.relationship('PumpkinDesign', back_populates='order',  cascade='all, delete-orphan', passive_deletes=True )  # one-to-many
      
     def __repr__(self):
         return f"Order (orderId='{self.order_id}', status='{self.status}')"
@@ -50,9 +60,9 @@ class PumpkinDesign(db.Model):
     eyes: Mapped[str] = mapped_column(nullable=False)
     mouth: Mapped[str] = mapped_column(nullable=False)
     amount: Mapped[int] = mapped_column(nullable=False)
-    created_at: Mapped[datetime] = mapped_column(nullable=False,  default=lambda: datetime.now(timezone.utc))
+    created_at: Mapped[datetime] = mapped_column(nullable=False,  default=lambda: datetime.now(timezone.utc).replace(microsecond=0))
  
-    order_id: Mapped[int] = mapped_column(db.ForeignKey('order.order_id'), nullable=True)  # can be null initially
+    order_id: Mapped[int] = mapped_column(db.ForeignKey('order.order_id', ondelete='CASCADE'), nullable=False)
     
     order = db.relationship('Order', back_populates='pumpkins')
 
