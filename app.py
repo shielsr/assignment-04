@@ -211,9 +211,9 @@ def test_page():
     
 
         
-
-# --- Seed defaults ---
+@app.route('/seed')
 def seed_defaults():
+    """ Had to put these in a route for Render, so as not to break the deploy """
     if not User.query.first():  # Only seed if empty
         customer1 = User(username="bill", password=bcrypt.generate_password_hash("bill").decode('utf-8'), name="Bill S. Preston Esq.", email="bill@spreston.com", address="12 Avenue Lane, Cork", role="customer")
         customer2 = User(username="ted", password=bcrypt.generate_password_hash("ted").decode('utf-8'), name="Ted 'Theodore' Logan", email="ted@theodorelogan.com", address="43A Road Street, Limerick", role="customer")
@@ -239,6 +239,4 @@ if __name__ == '__main__':
      
     # gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 app:app
     app.run(debug=True, port=8000)
-
-seed_defaults()
    
