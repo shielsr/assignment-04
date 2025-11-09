@@ -231,6 +231,8 @@ def seed_defaults():
         design1 = PumpkinDesign(design_id=1, size="large", eyes="scary", mouth="sad", amount=3, created_at=datetime(2025, 10, 14, 15, 30), order_id=1)
         db.session.add_all([design1])
         db.session.commit()
+    
+    return redirect(url_for("index"))
 
 if __name__ == '__main__':
     with app.app_context():
