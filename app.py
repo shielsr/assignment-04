@@ -238,6 +238,6 @@ if __name__ == '__main__':
         seed_defaults()   # Add default data if empty
      
     # gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 app:app
-    app.run(debug=True, port=8000)   # Hide this from Render
+    app.run(debug=True, port=8000)
 
    
