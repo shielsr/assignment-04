@@ -48,7 +48,7 @@ def signup():
         return render_template('signup.html')
     elif request.method == "POST":
         password = request.form.get('password')
-        hashed_password = bcrypt.generate_password_hash(password)
+        hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
           
         user = User(
             username = request.form.get('username'),
@@ -215,9 +215,9 @@ def test_page():
 # --- Seed defaults ---
 def seed_defaults():
     if not User.query.first():  # Only seed if empty
-        customer1 = User(username="bill", password=bcrypt.generate_password_hash("bill"), name="Bill S. Preston Esq.", email="bill@spreston.com", address="12 Avenue Lane, Cork", role="customer")
-        customer2 = User(username="ted", password=bcrypt.generate_password_hash("ted"), name="Ted 'Theodore' Logan", email="ted@theodorelogan.com", address="43A Road Street, Limerick", role="customer")
-        admin1 = User(username="admin", password=bcrypt.generate_password_hash("admin"), name="Pat Carver", email="pat@carv.com", address="32 Street Road, Galway", role="admin")
+        customer1 = User(username="bill", password=bcrypt.generate_password_hash("bill").decode('utf-8'), name="Bill S. Preston Esq.", email="bill@spreston.com", address="12 Avenue Lane, Cork", role="customer")
+        customer2 = User(username="ted", password=bcrypt.generate_password_hash("ted").decode('utf-8'), name="Ted 'Theodore' Logan", email="ted@theodorelogan.com", address="43A Road Street, Limerick", role="customer")
+        admin1 = User(username="admin", password=bcrypt.generate_password_hash("admin").decode('utf-8'), name="Pat Carver", email="pat@carv.com", address="32 Street Road, Galway", role="admin")
         
         db.session.add_all([customer1, customer2, admin1])
         db.session.commit()
@@ -240,4 +240,5 @@ if __name__ == '__main__':
     # gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 app:app
     app.run(debug=True, port=8000)
 
+seed_defaults()
    
