@@ -206,6 +206,7 @@ def update_status(order_id):
 
 @app.route('/test')
 def test_page():
+    """ Ignore this for now. Just testing out queries. """
     result = db.session.execute(text('SELECT * FROM "order"'))
     rows = result.all()
     print (rows)
@@ -239,6 +240,7 @@ if __name__ == '__main__':
         db.create_all()   # Create tables if not exist
         seed_defaults()   # Add default data if empty
      
-    app.run(debug=True, port=8000)
+    # gunicorn -k geventwebsocket.gunicorn.workers.GeventWebSocketWorker -w 1 app:app
+  #  app.run(debug=True, port=8000)   Hiding this from Render
 
    
