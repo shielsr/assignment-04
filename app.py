@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 from flask_login import (
     LoginManager,
     login_user,
@@ -15,7 +15,7 @@ from models import Order, PumpkinDesign, User, db
 
 
 
-
+from sqlalchemy import text
 
 
 app = Flask(__name__)
@@ -203,6 +203,14 @@ def update_status(order_id):
     return redirect(request.referrer or url_for('orders'))
 
 
+
+@app.route('/test')
+def test_page():
+    result = db.session.execute(text('SELECT * FROM "order"'))
+    rows = result.all()
+    print (rows)
+    return jsonify(rows)
+    
 
         
 

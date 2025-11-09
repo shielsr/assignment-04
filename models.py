@@ -2,10 +2,9 @@ from datetime import datetime, timezone
 
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import text
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import event, text
+from sqlalchemy.orm import Mapped, mapped_column, relationship, Session
 
-from sqlalchemy import event
 from sqlalchemy.engine import Engine
 
 @event.listens_for(Engine, "connect")
