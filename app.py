@@ -229,21 +229,19 @@ def seed_defaults():
         customer1 = User(username="bill", password=bcrypt.generate_password_hash("bill").decode('utf-8'), name="Bill S. Preston Esq.", email="bill@spreston.com", address="12 Avenue Lane, Cork", role="customer")
         customer2 = User(username="ted", password=bcrypt.generate_password_hash("ted").decode('utf-8'), name="Ted 'Theodore' Logan", email="ted@theodorelogan.com", address="43A Road Street, Limerick", role="customer")
         admin1 = User(username="admin", password=bcrypt.generate_password_hash("admin").decode('utf-8'), name="Pat Carver", email="pat@carv.com", address="32 Street Road, Galway", role="admin")
-        
+
         db.session.add_all([customer1, customer2, admin1])
-        db.session.commit()
 
     if not Order.query.first():  # Only seed if empty
         order1 = Order(order_id=1, created_at=datetime(2025, 10, 14, 15, 30), status="Delivered", customer_id=1)
         db.session.add_all([order1])
-        db.session.commit()
 
     if not PumpkinDesign.query.first():  # Only seed if empty
         design1 = PumpkinDesign(design_id=1, size="Large", eyes="Scary", mouth="Sad", amount=3, created_at=datetime(2025, 10, 14, 15, 30), order_id=1)
         db.session.add_all([design1])
-        db.session.commit()
     
-    return redirect(url_for("index"))
+    db.session.commit()
+    return redirect(url_for("login"))
 
 if __name__ == '__main__':
     with app.app_context():
