@@ -45,20 +45,23 @@
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="{{ url_for('index') }}">Home</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link active" href="{{ url_for('create_pumpkin_page') }}">Create</a>
-            </li>
-
-
+            
 
             {% if current_user.is_authenticated %}
-            <li class="nav-item">
-              {% if current_user.role == 'admin' %}
-              <a class="nav-link active" href="{{ url_for('admin_page') }}">Admin</a>
+              {% if current_user.role == 'admin' %}  
+              {# Links for admin only #}
+              <li class="nav-item">
+                <a class="nav-link active" href="{{ url_for('admin_page') }}">Admin</a>
+              </li>
               {% else %}
-              <a class="nav-link active" href="{{ url_for('my_account') }}">My account</a>
+              {# Links for customers only #}
+              <li class="nav-item">
+                <a class="nav-link active" href="{{ url_for('create_pumpkin_page') }}">Create</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="{{ url_for('my_account') }}">My account</a>
+              </li>
               {% endif %}
-            </li>
 
             <li class="nav-item">
               <a class="nav-link active" href="{{ url_for('logout') }}">Logout</a>
