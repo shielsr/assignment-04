@@ -12,7 +12,8 @@
 
 <div class="card">
     <div class="card-body">
-
+        <img src="{{ url_for('static', filename='images') }}/pumpkin-carver-landscape.png"
+            alt="Woman carving pumpkin with small knife" class="card-img-top mb-3" id="home-image">
         {% if current_user.is_authenticated %}
         <h5 class="card-title">Hello {{ current_user.name }}</h5>
         <p>Order more pumpkins, or check up on your existing orders in your account page.</p>
@@ -25,7 +26,7 @@
             </form>
         </div>
         {% else %}
-        <h5 class="card-title">Order the pumpkin of your nightmares</h5>
+        <h5 class="card-title">Order the pumpkin of your nightmares!</h5>
         <p>If you're looking to buy a hand-carved pumpkin for Halloween, you've come to the FRIGHT place!</p>
         <p>Choose how you want your pumpkin to look, and our team will carve it for you.</p>
         <div class="button-group-inline mb-4">
@@ -37,8 +38,7 @@
             </form>
         </div>
         {% endif %}
-        <img src="{{ url_for('static', filename='images') }}/pumpkin-carver.png"
-            alt="Woman carving pumpkin with small knife" class="card-img-bottom" id="home-image">
+
     </div>
 </div>
 
