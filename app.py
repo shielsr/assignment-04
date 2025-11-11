@@ -216,7 +216,7 @@ def update_status(order_id):
 
 @app.route('/test')
 def test_page():
-    """ Ignore this for now. Just testing out queries. """
+    """ Ignore this for now. Just testing out raw queries. """
     result = db.session.execute(text('SELECT * FROM "pumpkin_design"'))
     rows = result.all()
     rows_list = [dict(row._mapping) for row in rows]
@@ -228,8 +228,8 @@ def test_page():
 def seed_defaults():
     """ Had to put these in a route for Render, so as not to break the deploy """
     if not User.query.first():  # Only seed if empty
-        customer1 = User(username="bill", password=bcrypt.generate_password_hash("bill").decode('utf-8'), name="Bill S. Preston Esq.", email="bill@spreston.com", address="12 Avenue Lane, Cork", role="customer")
-        customer2 = User(username="ted", password=bcrypt.generate_password_hash("ted").decode('utf-8'), name="Ted 'Theodore' Logan", email="ted@theodorelogan.com", address="43A Road Street, Limerick", role="customer")
+        customer1 = User(username="bill", password=bcrypt.generate_password_hash("bill").decode('utf-8'), name="Bill Preston", email="bill@spreston.com", address="12 Avenue Lane, Cork", role="customer")
+        customer2 = User(username="ted", password=bcrypt.generate_password_hash("ted").decode('utf-8'), name="Ted Logan", email="ted@theodorelogan.com", address="43A Road Street, Limerick", role="customer")
         admin1 = User(username="admin", password=bcrypt.generate_password_hash("admin").decode('utf-8'), name="Pat Carver", email="pat@carv.com", address="32 Street Road, Galway", role="admin")
 
         db.session.add_all([customer1, customer2, admin1])

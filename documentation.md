@@ -42,7 +42,7 @@
 
 <br>
 
-### Future work:
+### Future stories:
 
 #### 6. Choose delivery date
 [SHOULD] As a customer, I want to select a date for my pumpkin to be delivered, so I can recevie it in time for Halloween.
@@ -91,6 +91,33 @@ I created basic wireframes in Figma for mobile and desktop, with the mobile layo
 <br>
 <br>
 
+## Databases and tables
+
+### ERD
+
+I made an ERD of the tables I needed in pgAdmin. I mapped out the columns I wanted to use and which were the Primary and Foreign Keys:
+
+![ERD](docs/documentation/erd-1.jpg)
+
+### pgAdmin
+
+I successfully set up the connection between Render and pgAdmin:
+
+![pgAdmin](docs/documentation/pgadmin-1.jpg)
+
+## Queries
+
+I tested out database queries in pgAdmin to make sure I could get the information I needed. I later used Python to make the same queries.
+
+For example, I used the following query to get all orders from a particular customer, ordered numerically by order_id:
+
+```
+SELECT * FROM "order"
+WHERE customer_id = 4
+ORDER BY order_id;
+```
+
+
 # My development process
 ## How I went about it
 
@@ -133,13 +160,13 @@ The following is a step-by-step account of how I did the project, which closely 
 
 Challenges I faced include:
 
-## 
 
 ## Deploying to Render.com
 I spent a lot of time troubleshooting deploying the site to Render.com. Some issues encountered:
-    - I had some items missing from my requirements.txt file, e.g. `gunicorn` and `psycopg`
-    - Postgres doesn't like `PRAGMA`, which I needed for cascade deleting in Sqlite. I had to remove it.
-    - The seed data I triggered with Sqlite didn't work. I had to put them behind a route (/seed)
+    
+- I had some items missing from my requirements.txt file, e.g. `gunicorn` and `psycopg`
+- Postgres doesn't like `PRAGMA`, which I needed for cascade deleting in Sqlite. I had to remove it.
+- The seed data I triggered with Sqlite didn't work. I had to put them behind a route (/seed)
 
 <br>
 
@@ -149,7 +176,7 @@ I didn't use Login Manager in my previous assignments, so it was new to me. I fo
 <br>
 
 ## Hashing passwords
-This was another thing that was new to me.
+This was another thing that was new to me. I had some trial-and-error on getting the seeded users to work with bcrypt (so that the seed passwords would be hashed).
 
 <br> 
 
@@ -160,13 +187,53 @@ This was another thing that was new to me.
 ## Deploying to Render.com
 Now that the app is more complex than in previous assignments, I had to do some troubleshooting to successfully deploy it. This included the following:
 
-## Cascade deleting in SQLite
+### Cascade deleting in SQLite
 I wanted, when deleting an order, for the associated pumpkin designs to be deleted from the pumpkin_design table. It took me a while to figure this out, as I didn't realise cascade deletion needed to be 'switched on' in SQLite (i.e. foreign keys needed to be turned on). I added `PRAGMA foreign_keys = ON;` and got it working locally.  But, when switching over to my postgres db on Render.com, the deploy failed. So I had to remove the PRAGMA code. PLEASE NOTE: Cascade deleting now doesn't work locally with SQLite, but it does work on the live site.
 
-
-## Seeding the tables with data
-For future convenience, I wanted to 
+### Seeding the tables with data
+To make future deployments more convenient, I included seed data. This was fine when using SQLite, but Postgres didn't like how I'd set it up, and so my deploys failed. So, I had to put the seed function behind a route, in this case /seed.
 
 <br>
-## Bugfixes
+
+## General bugfixes
 I fixed bugs as they came up. I also had a few friends doing user testing, and fixed anything they spotted.
+
+
+
+
+<br>
+<br>
+
+# Future work
+
+## Bridging database
+
+I'm aware it would be better to have an `order_details` table between the `order` and `pumpkin_design` tables. Something like the following:
+
+```
++------------+----------------+---------+-------+
+| order_id   | pumpkin_id     | quantity| price |
++------------+----------------+---------+-------+
+| 101        | PD1001         | 2       | 50.0  |
+| 101        | PD1003         | 1       | 75.0  |
+| 102        | PD1002         | 4       | 30.0  |
++------------+----------------+---------+-------+
+```
+I would revisit this in a future iteration of the app.
+
+
+## Additional user stories
+
+I would do the additional user stories described above, mainly around delivery dates and limitations.
+
+## Editable user accounts
+
+I demonstrated the ability to update data in tables on the /admin page. Ideally, I would also allow for updating/editing of Customer data in the `customer` table. However, it would effectively be repeating the functionality from the /admin page and I felt was unnecessary for this project.
+
+## JS validation on all forms
+
+I would do full JS validation on all forms on the website. I felt that this was out of scope for this assignment, so just relied on browser validation for now.
+
+## Draw pumpkins on a `<canvas>`
+
+It would be good to visually show the users their pumpkin as they design them. I would use JS and a canvas and assemble pngs to live-construct the pumpkins (similar to what I did in my second assignment, which allowed users to create their own roll of pastilles).
