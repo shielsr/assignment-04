@@ -14,7 +14,7 @@
     <div class="card-body">
         <h5 class="card-title mb-3">Enter your details</h5>
 
-        <form action="{{ url_for('login') }}" method="POST">
+        <form action="{{ url_for('login') }}" id="login-form" method="POST">
             <div class="mb-3">
 
                 <label for="login-username" class="form-label">
@@ -35,6 +35,7 @@
                 </label>
 
             </div>
+            <p id="error-message" class="error-text"></p>
             <button type="submit" class="btn btn-primary m-2">Log in</button>
         </form>
     </div>

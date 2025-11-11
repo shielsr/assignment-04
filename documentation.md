@@ -30,3 +30,4 @@ The following is a step-by-step account of how I did the project, which closely 
     - Postgres doesn't like PRAGMA, which I needed for cascade deleting in Sqlite. Had to remove it.
     - The seed data I triggered with Sqlite didn't work. I had to put them behind a route (/seed)
 - Added validation to the /create and /add forms.  Added 'required' attribute in the HTML.  In Python, I added .get() requests so I could include defaults 
+- Fixed error handling on /login page. Now throws an error message which is fethced by JS and shown on the page.

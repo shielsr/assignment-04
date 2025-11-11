@@ -12,6 +12,8 @@ from flask_login import (
 from flask_bcrypt import Bcrypt
 from sqlalchemy import text
 
+from werkzeug.security import check_password_hash
+
 from models import Order, PumpkinDesign, User, db
 
 
@@ -73,16 +75,16 @@ def login():
         password = request.form.get('password')
     
         user = User.query.filter(User.username == username).first()    
-
-        if bcrypt.check_password_hash(user.password, password):
-            login_user(user)
-            if current_user.role == 'admin':
-               return redirect(url_for('admin_page')) # A special page for admins
-            else:
-                return redirect(url_for('index'))
+        
+        if not user or not bcrypt.check_password_hash(user.password, password): # Checks whether username and password are correct
+            return jsonify({"success": False, "message": "Incorrect username or password"})
+        
+        login_user(user)
+        if current_user.role == 'admin':
+            return jsonify({"success": True, "redirect": url_for('admin_page')}) # A special page for admins
         else:
-            return 'Failed'
-
+            return jsonify({"success": True, "redirect": url_for('index')})
+        
 @app.route('/logout')
 @login_required
 def logout():
@@ -215,10 +217,10 @@ def update_status(order_id):
 @app.route('/test')
 def test_page():
     """ Ignore this for now. Just testing out queries. """
-    result = db.session.execute(text('SELECT * FROM "order"'))
+    result = db.session.execute(text('SELECT * FROM "pumpkin_design"'))
     rows = result.all()
-    print (rows)
-    return jsonify(rows)
+    rows_list = [dict(row._mapping) for row in rows]
+    return jsonify(rows_list)
     
 
         

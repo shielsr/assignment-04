@@ -38,3 +38,40 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+
+/* Login error message */
+
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("login-form");
+  const errorMessage = document.getElementById("error-message");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault(); // Stop normal form submission
+
+    // Clear any previous message
+    errorMessage.textContent = "";
+
+    try {
+      const formData = new FormData(form);
+
+      const response = await fetch("/login", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (!data.success) {
+        // Pulling in the message from app.py
+        errorMessage.textContent = data.message;
+
+      } else {
+        // Redirect to the page from Flask
+        window.location.href = data.redirect;
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      errorMessage.textContent = "Something went wrong. Please try again.";
+    }
+  });
+});

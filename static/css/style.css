@@ -64,6 +64,9 @@ footer {
   white-space: nowrap;
 }
 
+.error-text {
+    color:red;
+}
 
 /* --------------------- Desktop breakpoint --------------------- */
 
