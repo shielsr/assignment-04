@@ -190,11 +190,6 @@ def delete_order(order_id):
     db.session.commit()
     return redirect(url_for("my_account"))
 
-@app.route("/admin")
-@login_required
-def admin_page():
-    orders = Order.query.order_by(Order.order_id).all()
-    return render_template("admin.html", orders=orders)
 
 @app.route("/my-account")
 @login_required
@@ -213,15 +208,31 @@ def update_status(order_id):
     return redirect(request.referrer or url_for('orders'))
 
 
+@app.route("/admin")
+@login_required
+def admin_page():
+    orders = Order.query.order_by(Order.order_id).all()
+    
+    total_query = db.session.execute(text('SELECT COUNT(*) AS total_orders FROM "order";'))
+    total_orders = total_query.scalar()  # returns a single integer
+    
+    return render_template("admin.html", orders=orders, total_orders=total_orders)
 
 @app.route('/test')
 def test_page():
     """ Ignore this for now. Just testing out raw queries. """
+    # Query all rows from pumpkin_design
     result = db.session.execute(text('SELECT * FROM "pumpkin_design"'))
-    rows = result.all()
+    rows = result.fetchall()
     rows_list = [dict(row._mapping) for row in rows]
-    return jsonify(rows_list)
-    
+
+    # Query total number of orders
+    total_query = db.session.execute(text('SELECT COUNT(*) AS total_orders FROM "order";'))
+    total_orders = total_query.scalar()  # returns a single integer
+    return jsonify({
+        "pumpkin_designs": rows_list,
+        "total_orders": total_orders
+    })
 
         
 @app.route('/seed')
