@@ -2,7 +2,7 @@
 
 ## Part 1: Switching from SQLite to Postgres
 
-IF switching from SQLite (while hosting locally) to Postgres on Render.com, you need to toggle these lines of code in config.py. That is, comment out whichever you don't need. 
+If switching from SQLite (while hosting locally) to Postgres on Render.com, you need to toggle these lines of code in config.py. That is, comment out whichever you don't need. 
 
 SQLite:
 `SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'sqlite:///db.sqlite3')`

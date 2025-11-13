@@ -45,10 +45,9 @@
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="{{ url_for('index') }}">Home</a>
             </li>
-            
 
             {% if current_user.is_authenticated %}
-              {% if current_user.role == 'admin' %}  
+              {% if current_user.role == 'admin' %}
               {# Links for admin only #}
               <li class="nav-item">
                 <a class="nav-link active" href="{{ url_for('admin_page') }}">Admin</a>

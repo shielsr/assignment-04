@@ -14,30 +14,45 @@
     <div class="card-body">
         <img src="{{ url_for('static', filename='images') }}/pumpkin-carver-landscape.png"
             alt="Woman carving pumpkin with small knife" class="card-img-top mb-3" id="home-image">
-        {% if current_user.is_authenticated %}
-        <h5 class="card-title">Hello {{ current_user.name }}</h5>
-        <p>Order more pumpkins, or check up on your existing orders in your account page.</p>
-        <div class="button-group-inline mb-4">
-            <form id="home-go-to-account" action="{{ url_for('my_account') }}" method="get">
-                <button type="submit" class="btn btn-secondary m-2">Go to my account</button>
-            </form>
-            <form id="home-create-pumpkin" action="{{ url_for('create_pumpkin_page') }}" method="get">
-                <button type="submit" class="btn btn-primary m-2">Create a pumpkin</button>
-            </form>
-        </div>
-        {% else %}
-        <h5 class="card-title">Order the pumpkin of your nightmares!</h5>
-        <p>If you're looking to buy a hand-carved pumpkin for Halloween, you've come to the FRIGHT place!</p>
-        <p>Choose how you want your pumpkin to look, and our team will carve it for you.</p>
-        <div class="button-group-inline mb-4">
-            <form id="home-signup" action="{{ url_for('signup') }}" method="get">
-                <button type="submit" class="btn btn-primary m-2">Sign up</button>
-            </form>
-            <form id="home-login" action="{{ url_for('login') }}" method="get">
-                <button type="submit" class="btn btn-secondary m-2">Log in</button>
-            </form>
-        </div>
-        {% endif %}
+
+            {% if current_user.is_authenticated %}
+                <h5 class="card-title">Hello {{ current_user.name }}</h5>
+
+                {% if current_user.role == 'admin' %}
+                    {# Content for admins only #}
+                    <p>Welcome back. Check out the admin dashboard.</p>
+                    <div class="button-group-inline mb-4">
+                        <form id="home-go-to-admin" action="{{ url_for('admin_page') }}" method="get">
+                            <button type="submit" class="btn btn-primary m-2">Go to admin dashboard</button>
+                        </form>
+                    </div>
+                    {% else %}
+                     {# Content for non-admins #}
+                    <p>Order more pumpkins, or check up on your existing orders in your account page.</p>
+                    <div class="button-group-inline mb-4">
+                        <form id="home-go-to-account" action="{{ url_for('my_account') }}" method="get">
+                            <button type="submit" class="btn btn-secondary m-2">Go to my account</button>
+                        </form>
+                        <form id="home-create-pumpkin" action="{{ url_for('create_pumpkin_page') }}" method="get">
+                            <button type="submit" class="btn btn-primary m-2">Create a pumpkin</button>
+                        </form>
+                    </div>
+                {% endif %}
+
+            {% else %}
+                {# Content when logged out #}
+                <h5 class="card-title">Order the pumpkin of your nightmares!</h5>
+                <p>If you're looking to buy a hand-carved pumpkin for Halloween, you've come to the FRIGHT place!</p>
+                <p>Choose how you want your pumpkin to look, and our team will carve it for you.</p>
+                <div class="button-group-inline mb-4">
+                    <form id="home-signup" action="{{ url_for('signup') }}" method="get">
+                        <button type="submit" class="btn btn-primary m-2">Sign up</button>
+                    </form>
+                    <form id="home-login" action="{{ url_for('login') }}" method="get">
+                        <button type="submit" class="btn btn-secondary m-2">Log in</button>
+                    </form>
+                </div>
+            {% endif %}
 
     </div>
 </div>

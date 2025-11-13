@@ -58,7 +58,7 @@ Once they fill out the form, they are directed to /login, where they can enter t
 
 ## Logging in
 
-The site comes seeded with a Customer and an Admin account (see deployment instructions above).
+The site comes seeded with a Customer and an Admin account. [View setup instructions](setup.md)
 
 To access the Admin account, use the username `admin` and password `admin`.
 
@@ -107,6 +107,8 @@ Customers can view their previous orders here, along with in-progress ones. As m
 If a user logs in as an admin (see 'Logging in' above) they can see all orders that can be read from the `order` database table, along with the customer details and pumpkins connected to the order.
 
 Admins can edit the status of orders. This updates the relevant entry in the database.
+
+They can also see statistics.
 
 NOTE: If an admin sets an order to `Delivered`, then the 'Cancel order' button no longer appears for the customer.
 

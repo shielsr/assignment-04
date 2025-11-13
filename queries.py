@@ -6,7 +6,7 @@ def get_total_orders():
     # Get the total number of orders
     total_query = db.session.execute(text('SELECT COUNT(*) AS total_orders FROM "order";'))
     total_orders = total_query.scalar()
-    return total_orders
+    return round(total_orders or 0, 1)  # If None, default to 9.  The 1 refers to 1 decimal place.
     
 def get_ave_pumpkin_amount():
     # Get the average number of pumpkins per order
@@ -19,7 +19,7 @@ def get_ave_pumpkin_amount():
         ) AS per_order;
     '''))
     ave_pumpkin_amount = ave_pumpkins_query.scalar()
-    return ave_pumpkin_amount
+    return round(ave_pumpkin_amount or 0, 1)
     
 def get_ave_orders_per_user():
 # Get the average number of orders per user
@@ -32,4 +32,4 @@ def get_ave_orders_per_user():
         ) AS per_user;
     '''))
     ave_orders_per_user = ave_orders_user_query.scalar()
-    return ave_orders_per_user
+    return round(ave_orders_per_user or 0, 1)
