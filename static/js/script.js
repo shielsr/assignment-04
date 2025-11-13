@@ -22,20 +22,20 @@ This (indirectly) checks the order.status from the db
 and, in the HTML select dropdown, adds the 'selected' attribute to it. */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Get all selects with the class 'order-status'
-    const selects = document.querySelectorAll('select.order-status');
+  // Get all selects with the class 'order-status'
+  const selects = document.querySelectorAll('select.order-status');
 
-    selects.forEach(select => {
-        const status = (select.getAttribute('data-status') || '').trim();
-        if (!status) return;
+  selects.forEach(select => {
+    const status = (select.getAttribute('data-status') || '').trim();
+    if (!status) return;
 
-        // Case-insensitive match
-        Array.from(select.options).forEach(option => {
-            if (option.value.toLowerCase() === status.toLowerCase()) {
-                option.selected = true;
-            }
-        });
+    // Case-insensitive match
+    Array.from(select.options).forEach(option => {
+      if (option.value.toLowerCase() === status.toLowerCase()) {
+        option.selected = true;
+      }
     });
+  });
 });
 
 
@@ -44,6 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("login-form");
   const errorMessage = document.getElementById("error-message");
+
+  if (!form || !errorMessage) return;  // This stops the listener causing an error on other pages
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault(); // Stop normal form submission
