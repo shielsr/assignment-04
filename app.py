@@ -16,6 +16,7 @@ from werkzeug.security import check_password_hash
 
 from models import Order, PumpkinDesign, User, db
 
+from queries import get_total_orders, get_ave_pumpkin_amount, get_ave_orders_per_user
 
 app = Flask(__name__)
 app.config.from_object('config')  # Load configuration from config.py
@@ -211,28 +212,18 @@ def update_status(order_id):
 @app.route("/admin")
 @login_required
 def admin_page():
+    """ Includes order list and stats on orders.
+    I created raw sql queries in the queries.py file
+    and import them here"""
     orders = Order.query.order_by(Order.order_id).all()
     
-    total_query = db.session.execute(text('SELECT COUNT(*) AS total_orders FROM "order";'))
-    total_orders = total_query.scalar()  # returns a single integer
+    total_orders=get_total_orders()
+    ave_pumpkin_amount=get_ave_pumpkin_amount()
+    ave_orders_per_user=get_ave_orders_per_user()
     
-    return render_template("admin.html", orders=orders, total_orders=total_orders)
+    return render_template("admin.html", orders=orders, total_orders=total_orders, ave_pumpkin_amount=ave_pumpkin_amount, ave_orders_per_user=ave_orders_per_user)
 
-@app.route('/test')
-def test_page():
-    """ Ignore this for now. Just testing out raw queries. """
-    # Query all rows from pumpkin_design
-    result = db.session.execute(text('SELECT * FROM "pumpkin_design"'))
-    rows = result.fetchall()
-    rows_list = [dict(row._mapping) for row in rows]
 
-    # Query total number of orders
-    total_query = db.session.execute(text('SELECT COUNT(*) AS total_orders FROM "order";'))
-    total_orders = total_query.scalar()  # returns a single integer
-    return jsonify({
-        "pumpkin_designs": rows_list,
-        "total_orders": total_orders
-    })
 
         
 @app.route('/seed')

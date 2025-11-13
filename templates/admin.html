@@ -7,7 +7,7 @@
 
 <h4 class="card-title mb-3">Statistics</h4>
 
-<div class="card mb-3">
+<div class="card mb-5">
     <div class="card-body">
         <table class="table">
             <tbody>
@@ -15,16 +15,20 @@
                     <th scope="row" class="hug">Total orders</th>
                     <td>{{ total_orders }}</td>
                 </tr>
+                <tr>
+                    <th scope="row" class="hug">Average amount of<br> pumpkins per order</th>
+                    <td>{{ ave_pumpkin_amount }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="hug">Average number of<br>orders per user</th>
+                    <td>{{ ave_orders_per_user }}</td>
+                </tr>
             </tbody>
         </table>
     </div>
 </div>
 
 <h4 class="card-title mb-3">Customer orders</h4>
-
-
-
-
 
 {% for order in orders %}
 <div class="card mb-3">
